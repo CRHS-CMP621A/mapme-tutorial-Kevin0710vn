@@ -29,21 +29,20 @@ class Workout{
 class Running extends Workout{
     type = "Running";
     constructor(coords, distance, duration,cadence){
-        super(coords, distance, duration); // from Workout class
+        super(coords, distance, duration); 
         this.cadence = cadence;
-        this.calcPace(); //calculate the pace
-        this.setDescription(); //start the description for the workout title
+        this.calcPace(); 
+        this.setDescription(); 
     }
 
-    //Methods
     calcPace(){
-        //min / km
+
         this.pace = this.duration / this.distance;
         this.pace = this.pace.toFixed(1);
         return this.pace;
     }
    
-    setDescription(){ //Running on ___date ___
+    setDescription(){ 
          this.description = `${this.type} on ${this.date.toDateString()}`;
     }
 }
@@ -77,21 +76,17 @@ console.log(run1, cycling1);
 
 navigator.geolocation.getCurrentPosition(
     function (position) {
-       // console.log (position);
        console.log (`https://www.google.com/maps/place/Charlottetown+Rural+High+School/@${46.2567842},${-63.1518274},15.5z`);
        const latitude = position.coords.latitude;
        const longitude = position.coords.longitude;
        console.log(latitude, longitude);
-       //var map = L.map('map').setView([51.505, -0.09], 13);
        const coords = [latitude, longitude];
 
        
        map = L.map('map').setView(coords, 13);
 
        map.on('click', function(mapE){
-            mapEvent=mapE; // Task 3.2
-
-            //Task 3.1
+            mapEvent=mapE; 
             form.classList.remove('hidden');
             inputDistance.focus();
            
@@ -103,9 +98,8 @@ navigator.geolocation.getCurrentPosition(
 
        const data = JSON.parse(localStorage.getItem("workouts", JSON.stringify(workouts)));
        
-       //check if there is any data already stored
        if (data){
-        workouts = data; //load data into Workouts array
+        workouts = data; 
         console.log(data);
        }
 
@@ -113,31 +107,31 @@ navigator.geolocation.getCurrentPosition(
 );
 
 form.addEventListener('submit', function(e){
-    e.preventDefault(); // prevent from reloading the page
+    e.preventDefault(); // prevent from reloading
 
     const type = inputType.Value
-    const distance = Number(inputDistance.value);//convert to number
+    const distance = Number(inputDistance.value);
     const duration = Number(inputDuration.value);
     const lat= mapEvent.latlng.lat;
     const lng= mapEvent.latlng.lng;
     let workout;
 
-    // If workout type running, create running object
+    // if running is chosen, set running
     if (type === 'running'){
         const cadence = Number(inputCadence.value);
-        //validate from data later
+        //validate from data
 
-        //create new Running object
+        //running workout creation
         workout = new Running([lat, lng], distance, duration, cadence);
         workouts.push(workout);
         console.log(workouts);
         localStorage.setItem("workouts", JSON.stringify(workouts));
     }
-    // if workout type cycling, create cycling object
+    //if cycling is chosen, set cycling
     if (type === 'cycling'){
         const elevation = +inputElevation.value
        
-        //create new Cycling object
+        //cycling workout creation
         workout = new Cycling([lat, lng], distance, duration, elevation);
         workouts.push(workout);
         console.log(workouts);
@@ -146,7 +140,7 @@ form.addEventListener('submit', function(e){
 
      
    
-    //Render workout in sidebar for user
+    //make workout displayed sidebar
     let html;
    
     for (let workout of workouts){
@@ -257,7 +251,7 @@ containerWorkouts.addEventListener("click", function(e){
     const workout = workouts.find((work) => work.id === workoutE1.dataset.id);
 
     map.setView(workout.coords, 13,{
-        //set the Map view to the location of the workout coordinates
+        //set view to workout position
         animate: true,
         pan:{
             duration: 1,
