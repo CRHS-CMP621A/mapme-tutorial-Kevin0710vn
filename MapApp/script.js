@@ -85,6 +85,7 @@ navigator.geolocation.getCurrentPosition(
        
        map = L.map('map').setView(coords, 13);
 
+       //add Event listener
        map.on('click', function(mapE){
             mapEvent=mapE; 
             form.classList.remove('hidden');
